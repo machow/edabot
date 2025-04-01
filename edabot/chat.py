@@ -15,8 +15,13 @@ def create_edabot() -> Chat:
 
 def create_chat() -> Chat:
     env = dotenv_values(find_dotenv())
+    api_key = env.get("ANTHROPIC_API_KEY", os.environ.get("ANTHROPIC_API_KEY"))
+    if api_key is None:
+        raise ValueError(
+            "ANTHROPIC_API_KEY not found in environment variables or .env file."
+        )
     return ChatAnthropic(
         model="claude-3-5-sonnet-20241022",
         system_prompt="You are a friendly but terse assistant.",
-        api_key=env["ANTHROPIC_API_KEY"],
+        api_key=api_key,
     )
