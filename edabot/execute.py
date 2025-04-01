@@ -9,7 +9,7 @@ from chatlas.types import (
     ContentJson,
 )
 from dataclasses import dataclass
-from typing import Any, Union, TYPE_CHECKING
+from typing import Any, Union, TYPE_CHECKING, Literal, overload
 from typing_extensions import TypeAlias
 
 if TYPE_CHECKING:
@@ -134,6 +134,14 @@ def run_cell_capture_exceptions(shell: InteractiveShell, code: str) -> CellRun:
         shell.custom_exceptions = original_handler
 
         # TODO: handle worst case CellRun return
+
+
+@overload
+def execute_code(code: str, as_tool: Literal[True]) -> ContentToolResult: ...
+
+
+@overload
+def execute_code(code: str, as_tool: Literal[False]) -> CellRun: ...
 
 
 def execute_code(code: str, as_tool: bool = True):
