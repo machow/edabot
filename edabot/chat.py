@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 from chatlas import Chat, ChatAnthropic
 from dotenv import find_dotenv, dotenv_values
