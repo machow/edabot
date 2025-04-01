@@ -25,4 +25,8 @@ dependencies = [
 dev = [
     "polars>=1.25.0",
     "pytest>=8.3.5",
+    "ruff>=0.11.2",
 ]
+
+[tool.ruff.lint]
+exclude = ["docs", ".venv", "tests/*"]
