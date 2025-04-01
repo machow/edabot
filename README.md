@@ -1,6 +1,8 @@
 # edabot
 
 ```python
+# In a jupyter notebook --------
+
 from edabot import create_edabot
 
 # assumes ANTHROPIC_API_KEY in .env
