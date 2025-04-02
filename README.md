@@ -1,5 +1,7 @@
 # edabot
 
+## Basic use
+
 ```python
 # In a jupyter notebook --------
 
@@ -15,4 +17,21 @@ chat.chat("""
     plotnine and the penguins data in plotnine.data (with the
     ggplot function).
 """)
+```
+
+## Chat magic
+
+```python
+from edabot import create_edabot
+
+# assumes ANTHROPIC_API_KEY in .env
+chat = create_edabot()
+```
+
+Now you can use jupyter cell magics:
+
+```python
+%%chat
+
+Print out the time.
 ```
