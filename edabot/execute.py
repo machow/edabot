@@ -124,7 +124,12 @@ def execute_code(code: str, as_tool: Literal[False]) -> CellRun: ...
 
 
 def execute_code(code: str, as_tool: bool = True):
-    """Execute python code in the current IPython shell."""
+    """Execute python code in the current IPython shell.
+    
+    When running with as_tool=True, the code, along with any output displayed
+    results get shown in the notebook output (similar to running the code directly
+    from a jupyter notebook cell).
+    """
 
     from IPython.core.getipython import get_ipython
     from IPython.display import display, HTML
@@ -146,3 +151,13 @@ def execute_code(code: str, as_tool: bool = True):
         return cell_run.to_tool_result()
 
     return cell_run
+
+
+def create_quarto_report(filename: str, content: str, as_tool: bool = True) -> str:
+    """Create a Quarto report from the given content."""
+
+    # Create the Quarto report
+    with open(filename, "w") as f:
+        f.write(content)
+    
+    print("\n\nQUARTO REPORT CREATED:", filename)
