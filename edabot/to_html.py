@@ -1,3 +1,4 @@
+import html
 from functools import singledispatch
 from .execute import CellRun
 
@@ -57,6 +58,6 @@ details.edabot-cell-run {
 
     outputs = obj.captured.stdout + "\n\n" + obj.captured.stderr
 
+    code = html.escape(obj.result.info.raw_cell)
     return tmpl.format(
-        style=style, outputs=outputs, results=display, code=obj.result.info.raw_cell
-    )
+        style=style, outputs=html.escape(outputs), results=display, code=code    )
