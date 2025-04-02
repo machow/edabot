@@ -12,6 +12,8 @@ from dataclasses import dataclass
 from typing import Any, Union, TYPE_CHECKING, Literal, overload
 from typing_extensions import TypeAlias
 
+from ._chatlas import ctx_display
+
 if TYPE_CHECKING:
     from IPython.core.interactiveshell import InteractiveShell, ExecutionResult
     from IPython.utils.capture import RichOutput, CapturedIO
@@ -58,29 +60,6 @@ class CellRun:
         )
         cell_displays = self.to_content()
         return ContentToolResult("", [cell_std, *cell_displays])
-
-    def to_html(self) -> str:
-        tmpl = """
-        <details>
-          <summary>Execute Code</summary>
-          <h3>Code</h3>
-          <pre>{code}</pre>
-          <h3>Outputs</h3>
-          <pre>
-          {outputs}
-          </pre>
-
-          <h3>Display</h3>
-          {results}
-        </details>
-        """
-        display = "\n\n".join(map(self.output_to_html, self.captured.outputs))
-
-        outputs = self.captured.stdout + "\n\n" + self.captured.stderr
-
-        return tmpl.format(
-            outputs=outputs, results=display, code=self.result.info.raw_cell
-        )
 
     @staticmethod
     def output_to_html(output: "RichOutput | str") -> str:
@@ -160,7 +139,10 @@ def execute_code(code: str, as_tool: bool = True):
     #    res = shell.run_cell(code, store_history=False)
 
     if as_tool:
-        display(HTML(cell_run.to_html()))
+        from edabot.to_html import to_html
+        display(HTML(to_html(cell_run)))
+        displayer = ctx_display.get()
+        displayer._init_display()
         return cell_run.to_tool_result()
 
     return cell_run
